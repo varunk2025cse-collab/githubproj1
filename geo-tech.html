@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoTech - Smart Land Stability Alert</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-green-300 min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold text-green-700 mb-4">🌍 GeoTech – Smart Land Stability Alert</h1>
+    <p class="mb-4 text-gray-600">Enter your village name to check soil details:</p>
+    
+    <input id="villageInput" type="text" placeholder="Enter village name" 
+      class="border rounded-lg w-full p-2 mb-4 focus:ring-2 focus:ring-green-500 focus:outline-none">
+    
+    <button onclick="checkSoil()" 
+      class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg w-full">
+      Check Soil Info
+    </button>
+
+    <div id="result" class="mt-6 text-lg text-gray-800"></div>
+  </div>
+
+  <script>
+    // Sample database of soil info
+    const soilDatabase = {
+      "chennai": { type: "Clay", risk: "High", advice: "Use deep foundation and soil stabilizers." },
+      "coimbatore": { type: "Sandy Loam", risk: "Medium", advice: "Use strong base structure." },
+      "madurai": { type: "Loamy", risk: "Low", advice: "Safe for normal buildings." },
+      "ooty": { type: "Clay Loam", risk: "High", advice: "Stabilize soil before construction." },
+      "pollachi": { type: "Sandy", risk: "Medium", advice: "Add drainage layer to improve support." }
+    };
+
+    function checkSoil() {
+      const village = document.getElementById("villageInput").value.toLowerCase().trim();
+      const resultDiv = document.getElementById("result");
+
+      if (village in soilDatabase) {
+        const data = soilDatabase[village];
+        resultDiv.innerHTML = `
+          <div class="p-4 bg-green-100 rounded-lg shadow-md">
+            <p><strong>Village:</strong> ${village.charAt(0).toUpperCase() + village.slice(1)}</p>
+            <p><strong>Soil Type:</strong> ${data.type}</p>
+            <p><strong>Risk Level:</strong> ${data.risk}</p>
+            <p><strong>Advice:</strong> ${data.advice}</p>
+          </div>
+        `;
+      } else {
+        resultDiv.innerHTML = `
+          <div class="p-4 bg-red-100 rounded-lg shadow-md text-red-700">
+            ❌ No data available for "${village}".<br>
+            Please contact nearest soil testing lab.
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
